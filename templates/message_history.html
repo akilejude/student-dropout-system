@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            <h4 class="mb-0">
+                <i class="fas fa-history"></i>
+                Message History
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if messages %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            <th>S/N</th>
+                            <th>Student ID</th>
+                            <th>Recipient</th>
+                            <th>Contact</th>
+                            <th>Subject</th>
+                            <th>Channel</th>
+                            <th>Status</th>
+                            <th>Sent At</th>
+                            <th>Created At</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for message in messages %}
+
+                        <tr>
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+                            <td>
+                                {{ message[1] }}
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ message[3] }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    {{ message[2] }}
+                                </small>
+                            </td>
+
+                            <td>
+                                {{ message[4] }}
+                            </td>
+
+                            <td>
+                                {{ message[5] }}
+                            </td>
+
+                            <td>
+
+                                {% if message[6] == "EMAIL" %}
+
+                                    <span class="badge bg-primary">
+                                        <i class="fas fa-envelope"></i>
+                                        EMAIL
+                                    </span>
+
+                                {% elif message[6] == "SMS" %}
+
+                                    <span class="badge bg-info text-dark">
+                                        <i class="fas fa-sms"></i>
+                                        SMS
+                                    </span>
+
+                                {% elif message[6] == "WHATSAPP" %}
+
+                                    <span class="badge bg-success">
+                                        <i class="fab fa-whatsapp"></i>
+                                        WHATSAPP
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        {{ message[6] }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if message[7] == "SENT" %}
+
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle"></i>
+                                        SENT
+                                    </span>
+
+                                {% elif message[7] == "FAILED" %}
+
+                                    <span class="badge bg-danger">
+                                        <i class="fas fa-times-circle"></i>
+                                        FAILED
+                                    </span>
+
+                                {% elif message[7] == "PENDING" %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="fas fa-clock"></i>
+                                        PENDING
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        {{ message[7] }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ message[8] or "Not sent" }}
+                            </td>
+
+                            <td>
+                                {{ message[9] }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-warning text-center">
+
+                <i class="fas fa-info-circle"></i>
+
+                No messages have been recorded yet.
+
+            </div>
+
+            {% endif %}
+
+            <div class="mt-4">
+
+                <a
+                    href="{{ url_for('at_risk_students') }}"
+                    class="btn btn-secondary">
+
+                    <i class="fas fa-arrow-left"></i>
+                    Back to At-Risk Students
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

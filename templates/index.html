@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow">
+
+        <div class="card-body text-center">
+
+            <h1 class="display-5">
+                <i class="fas fa-graduation-cap text-primary"></i><br><br>
+                Student Dropout Prediction System
+            </h1>
+
+            <p class="lead mt-3">
+                Machine Learning Based Early Warning System for Predicting Students at Risk of Dropping Out.
+            </p>
+
+            <hr>
+
+            <div class="mt-4">
+
+                <a href="/dashboard" class="btn btn-dark btn-lg m-2">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+
+                <a href="/predict" class="btn btn-success btn-lg m-2">
+                    <i class="fas fa-user-graduate"></i>
+                    Single Prediction
+                </a>
+
+                <a href="/batch" class="btn btn-primary btn-lg m-2">
+                    <i class="fas fa-file-upload"></i>
+                    Batch Prediction
+                </a>
+
+                <a href="/students" class="btn btn-secondary btn-lg m-2">
+                    <i class="fas fa-users"></i>
+                    Student Records
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

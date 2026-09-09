@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning text-dark">
+
+            <h3>
+                <i class="fas fa-calendar"></i>
+                Year / Level Report
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <!-- ================= PDF REPORT ================= -->
+
+            <form
+                action="{{ url_for('print_year_report') }}"
+                method="POST"
+                class="mb-4">
+
+                <div class="row">
+
+                    <div class="col-md-8 mb-3">
+
+                        <label class="form-label">
+                            Select Year / Level for PDF
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="level"
+                            required>
+
+                            <option value="" selected disabled>
+                                -- Select Year / Level --
+                            </option>
+
+                            <option value="100">Year 1</option>
+                            <option value="200">Year 2</option>
+                            <option value="300">Year 3</option>
+                            <option value="400">Year 4</option>
+                            <option value="500">Year 5</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3 d-flex align-items-end">
+
+                        <button
+                            type="submit"
+                            class="btn btn-warning w-100">
+
+                            <i class="fas fa-file-pdf"></i>
+                            Generate PDF
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+
+            <!-- ================= EXCEL REPORT ================= -->
+
+            <form
+                action="{{ url_for('export_year_report') }}"
+                method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-8 mb-3">
+
+                        <label class="form-label">
+                            Select Year / Level for Excel
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="level"
+                            required>
+
+                            <option value="" selected disabled>
+                                -- Select Year / Level --
+                            </option>
+
+                            <option value="100">Year 1</option>
+                            <option value="200">Year 2</option>
+                            <option value="300">Year 3</option>
+                            <option value="400">Year 4</option>
+                            <option value="500">Year 5</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3 d-flex align-items-end">
+
+                        <button
+                            type="submit"
+                            class="btn btn-success w-100">
+
+                            <i class="fas fa-file-excel"></i>
+                            Generate Excel
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ================= BACK BUTTON ================= -->
+
+    <div class="mt-4 mb-4">
+
+        <a
+             href="{{ url_for('report_year') }}"
+                class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left"></i>
+            Back to Reports
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

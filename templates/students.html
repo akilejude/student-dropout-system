@@ -1,0 +1,362 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <!-- Page Header -->
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h3 class="mb-0">
+                    <i class="fas fa-users"></i>
+                    Student Records
+                </h3>
+
+                <span class="badge bg-light text-dark fs-6">
+                    Total Students: {{ records|length }}
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <!-- Search and Filters -->
+            <form action="{{ url_for('students') }}" method="GET">
+
+                <div class="row g-3 mb-4">
+
+                    <!-- Search -->
+                    <div class="col-md-5">
+
+                        <input
+                            type="text"
+                            name="search"
+                            class="form-control"
+                            placeholder="Search Registration Number or Student Name..."
+                            value="{{ search }}">
+
+                    </div>
+
+                    <!-- Department -->
+                    <div class="col-md-3">
+
+                        <select name="department" class="form-select">
+
+                            <option value="">All Departments</option>
+
+                            <option value="Accounting" {% if department=="Accounting" %}selected{% endif %}>Accounting</option>
+
+                            <option value="Banking and Finance" {% if department=="Banking and Finance" %}selected{% endif %}>Banking and Finance</option>
+
+                            <option value="Business Administration" {% if department=="Business Administration" %}selected{% endif %}>Business Administration</option>
+
+                            <option value="Computer Science" {% if department=="Computer Science" %}selected{% endif %}>Computer Science</option>
+
+                            <option value="Cyber Security" {% if department=="Cyber Security" %}selected{% endif %}>Cyber Security</option>
+
+                            <option value="Data Science" {% if department=="Data Science" %}selected{% endif %}>Data Science</option>
+
+                            <option value="Economics" {% if department=="Economics" %}selected{% endif %}>Economics</option>
+
+                            <option value="Education" {% if department=="Education" %}selected{% endif %}>Education</option>
+
+                            <option value="Information Technology" {% if department=="Information Technology" %}selected{% endif %}>Information Technology</option>
+
+                            <option value="Mass Communication" {% if department=="Mass Communication" %}selected{% endif %}>Mass Communication</option>
+
+                            <option value="Nursing" {% if department=="Nursing" %}selected{% endif %}>Nursing</option>
+
+                            <option value="Political Science" {% if department=="Political Science" %}selected{% endif %}>Political Science</option>
+
+                            <option value="Public Health" {% if department=="Public Health" %}selected{% endif %}>Public Health</option>
+
+                            <option value="Sociology" {% if department=="Sociology" %}selected{% endif %}>Sociology</option>
+
+                            <option value="Software Engineering" {% if department=="Software Engineering" %}selected{% endif %}>Software Engineering</option>
+
+                        </select>
+
+                    </div>
+                    <div class="col-md-2">
+
+                        <select name="level" class="form-select">
+
+                            <option value="">All Levels</option>
+
+                            <option value="100" {% if level=="100" %}selected{% endif %}>100</option>
+                            <option value="200" {% if level=="200" %}selected{% endif %}>200</option>
+                            <option value="300" {% if level=="300" %}selected{% endif %}>300</option>
+                            <option value="400" {% if level=="400" %}selected{% endif %}>400</option>
+                            <option value="500" {% if level=="500" %}selected{% endif %}>500</option>
+
+                         </select>
+
+                    </div>
+                    <!-- Prediction -->
+                    <div class="col-md-2">
+
+                        <select name="prediction" class="form-select">
+
+                            <option value="">All Predictions</option>
+
+                            <option value="HIGH" {% if prediction=="HIGH" %}selected{% endif %}>High Risk</option>
+
+                            <option value="LOW" {% if prediction=="LOW" %}selected{% endif %}>Low Risk</option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Search Button -->
+                    <div class="col-md-2">
+
+                        <button class="btn btn-primary w-100">
+
+                            <i class="fas fa-search"></i>
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+            <!-- Student Table -->
+            <form action="{{ url_for('delete_selected') }}" method="POST">
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-hover table-striped align-middle">
+
+                        <thead class="table-dark">
+
+                            <tr>
+
+                                <th style="width:80px">
+
+                                    <input type="checkbox" id="selectAll">
+
+                                </th>
+
+                                <th>S/N</th>
+
+                                <th>Registration No.</th>
+
+                                <th>Student Name</th>
+
+                                <th>Department</th>
+                                
+                                <th>Level</th>
+                                
+                                <th>CGPA</th>
+
+                                <th>Prediction</th>
+
+                                <th style="width:180px">Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+
+{% for row in records %}
+
+<tr>
+
+    <td>
+
+        <input
+            type="checkbox"
+            name="selected_students"
+            value="{{ row[0] }}">
+
+    </td>
+
+    <td>{{ loop.index }}</td>
+
+    <td>{{ row[1] }}</td>
+
+    <td>{{ row[2] }}</td>
+
+    <td>{{ row[5] }}</td>
+
+    <td>{{ row[6] }}</td>
+
+    <td>
+
+        {% if row[8] >= 4.5 %}
+
+            <span class="badge bg-success">
+                {{ row[8] }}
+            </span>
+
+        {% elif row[8] >= 3.5 %}
+
+            <span class="badge bg-primary">
+                {{ row[8] }}
+            </span>
+
+        {% elif row[8] >= 2.5 %}
+
+            <span class="badge bg-warning text-dark">
+                {{ row[8] }}
+            </span>
+
+        {% else %}
+
+            <span class="badge bg-danger">
+                {{ row[8] }}
+            </span>
+
+        {% endif %}
+
+    </td>
+
+    <td>
+
+        {% if "HIGH" in row[12] %}
+
+            <span class="badge bg-danger">
+                High Risk
+            </span>
+
+        {% else %}
+
+            <span class="badge bg-success">
+                Low Risk
+            </span>
+
+        {% endif %}
+
+    </td>
+
+    <td>
+
+        <a href="/edit/{{ row[0] }}"
+           class="btn btn-warning btn-sm">
+
+            <i class="fas fa-edit"></i>
+
+        </a>
+
+        <a href="{{ url_for('delete', id=row[0]) }}"
+           class="btn btn-danger btn-sm"
+           onclick="return confirm('Delete this student?');">
+
+            <i class="fas fa-trash"></i>
+
+        </a>
+
+    </td>
+
+</tr>
+
+{% endfor %}
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="mt-3">
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                        onclick="return confirm('Delete selected students?');">
+
+                        <i class="fas fa-trash"></i>
+                        Delete Selected
+
+                    </button>
+
+                </div>
+
+            </form>
+
+            <hr>
+
+            <div class="text-center mt-4">
+
+                <a href="{{ url_for('export_excel') }}"
+                   class="btn btn-success">
+
+                    <i class="fas fa-file-excel"></i>
+                    Export Excel
+
+                </a>
+
+                <a href="{{ url_for('export_pdf') }}"
+                   class="btn btn-danger">
+
+                    <i class="fas fa-file-pdf"></i>
+                    Export PDF
+
+                </a>
+
+                <a href="{{ url_for('dashboard') }}"
+                   class="btn btn-dark">
+
+                    <i class="fas fa-home"></i>
+                    Dashboard
+
+                </a>
+
+                <a href="{{ url_for('predict') }}"
+                   class="btn btn-primary">
+
+                    Single Prediction
+
+                </a>
+
+                <a href="{{ url_for('batch') }}"
+                   class="btn btn-info text-white">
+
+                    Batch Prediction
+
+                </a>
+
+                <a href="{{ url_for('add_student') }}"
+                   class="btn btn-warning">
+
+                    Add Student
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("selectAll").addEventListener("click", function () {
+
+    const checkboxes = document.querySelectorAll(
+        'input[name="selected_students"]'
+    );
+
+    checkboxes.forEach(function(box){
+
+        box.checked = document.getElementById("selectAll").checked;
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

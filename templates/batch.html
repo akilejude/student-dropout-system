@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+            <h2 class="text-center">
+                <i class="fas fa-file-upload"></i>
+                Batch Student Dropout Prediction
+            </h2>
+        </div>
+
+        <div class="card-body">
+
+            <form action="/batch" method="POST" enctype="multipart/form-data">
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-bold">
+                        Upload CSV or Excel File
+                    </label>
+
+                    <input
+                        type="file"
+                        name="file"
+                        class="form-control"
+                        accept=".csv,.xlsx"
+                        required>
+
+                    <small class="text-muted">
+                        Supported file types: CSV (.csv) and Excel (.xlsx)
+                    </small>
+
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-play"></i>
+                    Predict Batch
+                </button>
+
+                <a href="/dashboard" class="btn btn-dark">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+
+                <a href="/students" class="btn btn-secondary">
+                    <i class="fas fa-users"></i>
+                    Student Records
+                </a>
+
+                <a href="/predict" class="btn btn-primary">
+                    <i class="fas fa-user-graduate"></i>
+                    Single Prediction
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

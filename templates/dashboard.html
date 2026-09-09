@@ -1,0 +1,980 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-2">
+
+    <!-- ========================================================= -->
+    <!-- DASHBOARD TITLE -->
+    <!-- ========================================================= -->
+
+    <h3 class="text-center text-primary mb-1">
+    Student Dropout Prediction Dashboard
+</h3>
+
+    <!-- ========================================================= -->
+    <!-- SUMMARY CARDS -->
+    <!-- ========================================================= -->
+
+    <div class="row">
+
+        <!-- TOTAL STUDENTS -->
+        <div class="col-md-3 mb-2">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body text-center p-1">
+
+                    <h5>
+                        <i class="fas fa-users"></i>
+                        Total Students
+                    </h5>
+
+                    <h9 class="mb-1">{{ total_students }}</h9>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- HIGH RISK -->
+        <div class="col-md-3 mb-2">
+            <div class="card bg-danger text-white shadow">
+                <div class="card-body text-center p-1">
+
+                    <h5>
+                        <i class="fas fa-exclamation-triangle"></i>
+                        High Risk
+                    </h5>
+
+                    <h9 class="mb-1">{{ high_risk }}</h9>
+
+                    <small>
+                        {{ high_risk_percentage }}%
+                    </small>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- LOW RISK -->
+        <div class="col-md-3 mb-2">
+            <div class="card bg-success text-white shadow">
+                <div class="card-body text-center p-1">
+
+                    <h5>
+                        <i class="fas fa-check-circle"></i>
+                        Low Risk
+                    </h5>
+
+                    <h9 class="mb-1">{{ low_risk }}</h9>
+
+                    <small>
+                        {{ low_risk_percentage }}%
+                    </small>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- DEPARTMENTS -->
+        <div class="col-md-3 mb-2">
+            <div class="card bg-warning text-dark shadow">
+                <div class="card-body text-center p-1">
+
+                    <h5>
+                        <i class="fas fa-building"></i>
+                        Departments
+                    </h5>
+
+                    <h9 class="mb-1">{{ departments }}</h9>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+   <!-- ========================================================= -->
+<!-- COMPACT DASHBOARD INFORMATION -->
+<!-- ========================================================= -->
+
+<!-- AT-RISK STUDENTS -->
+<div class="row g-2 mb-2">
+
+    <div class="col-md-3 mb-2">
+
+        <div class="card bg-danger text-white shadow-sm h-100">
+
+            <div class="card-body text-center p-1">
+
+                <div>
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong> At-Risk Students</strong>
+                </div>
+
+                <h3 class="mb-1">
+                    {{ high_risk }}
+                </h3>
+
+                <a href="{{ url_for('at_risk_students') }}"
+                   class="btn btn-light btn-sm">
+
+                    View At-Risk Students
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- AVERAGE CGPA -->
+    <div class="col-md-3 mb-2">
+
+        <div class="card border-primary shadow-sm h-100">
+
+            <div class="card-body text-center p-1">
+
+                <h6 class="text-primary mb-1">
+                    Average CGPA
+                </h6>
+
+                <h3 class="mb-0">
+                    {{ average_cgpa }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- AVERAGE ATTENDANCE -->
+    <div class="col-md-3 mb-2">
+
+        <div class="card border-success shadow-sm h-100">
+
+            <div class="card-body text-center p-1">
+
+                <h6 class="text-success mb-1">
+                    Average Attendance
+                </h6>
+
+                <h3 class="mb-0">
+                    {{ average_attendance }}%
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- HIGHEST RISK DEPARTMENT -->
+    <div class="col-md-3 mb-2">
+
+        <div class="card border-danger shadow-sm h-100">
+
+            <div class="card-body text-center p-1">
+
+                <h6 class="text-danger mb-1">
+                    Highest Risk Department
+                </h6>
+
+                <strong>
+                    {{ highest_risk_department }}
+                </strong>
+
+                <br>
+
+                <small>
+                    {{ highest_risk_department_count }} students
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- BEST DEPARTMENT + QUICK ACTIONS -->
+<!-- ========================================================= -->
+
+<div class="row g-2 mb-2">
+
+    <!-- BEST DEPARTMENT -->
+    <div class="col-lg-3 col-md-6 mb-2">
+
+        <div class="card border-warning shadow-sm h-100">
+
+            <div class="card-body text-center p-1">
+
+                <h6 class="text-warning mb-1">
+                    Best Department
+                </h6>
+
+                <strong>
+                    {{ best_department }}
+                </strong>
+
+                <br>
+
+                <small>
+                    Average CGPA: {{ best_department_cgpa }}
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SINGLE PREDICTION -->
+    <div class="col-lg-3 col-md-6 mb-2">
+
+        <a href="/predict"
+           class="btn btn-primary w-100 p-2">
+
+            <i class="fas fa-user-check"></i>
+            <br>
+            Single Prediction
+
+        </a>
+
+    </div>
+
+
+    <!-- BATCH PREDICTION -->
+    <div class="col-lg-3 col-md-6 mb-2">
+
+        <a href="/batch"
+           class="btn btn-success w-100 p-2">
+
+            <i class="fas fa-users"></i>
+            <br>
+            Batch Prediction
+
+        </a>
+
+    </div>
+
+
+    <!-- STUDENT RECORDS -->
+    <div class="col-lg-3 col-md-6 mb-2">
+
+        <a href="/students"
+           class="btn btn-dark w-100 p-2">
+
+            <i class="fas fa-database"></i>
+            <br>
+            Student Records
+
+        </a>
+
+    </div>
+
+
+    <!-- MANAGE ADMINISTRATORS -->
+    {% if session['role'] == 'Administrator' %}
+
+    <div class="col-lg-3 col-md-6 mb-2">
+
+        <a href="{{ url_for('admin_management') }}"
+           class="btn btn-warning w-100 p-2">
+
+            <i class="fas fa-user-shield"></i>
+            <br>
+            Manage Administrators
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<hr class="my-0">
+
+<!-- ========================================================= -->
+<!-- COMPACT CHARTS -->
+<!-- ========================================================= -->
+
+<div class="row g-2">
+
+
+    <!-- ===================================================== -->
+    <!-- STUDENT SUMMARY -->
+    <!-- ===================================================== -->
+
+    <div class="col-lg-4 col-md-6 mb-2">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-header bg-dark text-white py-2">
+
+                <h6 class="mb-0">
+                    <i class="fas fa-chart-bar"></i>
+                    Student Summary
+                </h6>
+
+            </div>
+
+            <div class="card-body p-1">
+
+                <div style="height: 150px;">
+
+                    <canvas id="summaryChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- DROPOUT RISK DISTRIBUTION -->
+    <!-- ===================================================== -->
+
+    <div class="col-lg-4 col-md-6 mb-2">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-header bg-primary text-white py-2">
+
+                <h6 class="mb-0">
+
+                    <i class="fas fa-chart-pie"></i>
+                    Dropout Risk Distribution
+
+                </h6>
+
+            </div>
+
+            <div class="card-body p-1">
+
+                <div style="height: 150px;">
+
+                    <canvas id="riskChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- STUDENTS BY DEPARTMENT -->
+    <!-- ===================================================== -->
+
+    <div class="col-lg-4 col-md-6 mb-2">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-header bg-success text-white py-2">
+
+                <h6 class="mb-0">
+
+                    <i class="fas fa-building"></i>
+                    Students by Department
+
+                </h6>
+
+            </div>
+
+            <div class="card-body p-1">
+
+                <div style="height: 150px;">
+
+                    <canvas id="departmentChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- HIGH-RISK STUDENTS BY DEPARTMENT -->
+    <!-- ===================================================== -->
+
+    <div class="col-lg-4 col-md-6 mb-2">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-header bg-danger text-white py-2">
+
+                <h6 class="mb-0">
+
+                    <i class="fas fa-exclamation-triangle"></i>
+                    High-Risk Students by Department
+
+                </h6>
+
+            </div>
+
+            <div class="card-body p-1">
+
+                <div style="height: 150px;">
+
+                    <canvas id="riskDepartmentChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- HIGH-RISK PERCENTAGE BY DEPARTMENT -->
+    <!-- ===================================================== -->
+
+    <div class="col-lg-4 col-md-6 mb-2">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-header bg-warning text-dark py-2">
+
+                <h6 class="mb-0">
+
+                    <i class="fas fa-chart-line"></i>
+                    High-Risk Percentage by Department
+
+                </h6>
+
+            </div>
+
+            <div class="card-body p-1">
+
+                <div style="height: 150px;">
+
+                    <canvas id="riskPercentageChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- HIGH-RISK PERCENTAGE BY ACADEMIC LEVEL -->
+    <!-- ===================================================== -->
+
+    <div class="col-lg-4 col-md-6 mb-2">
+
+    <div class="card shadow-sm h-100">
+            <div class="card-header bg-info text-white py-2">
+
+                <h6 class="mb-0">
+
+                    <i class="fas fa-graduation-cap"></i>
+                    High-Risk Percentage by Academic Level
+
+                </h6>
+
+            </div>
+
+            <div class="card-body p-1">
+
+                <div style="height: 150px;">
+
+                    <canvas id="riskLevelChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================= -->
+<!-- CHART JAVASCRIPT -->
+<!-- ============================================================= -->
+
+<script>
+
+window.onload = function () {
+
+
+    /* =========================================================
+       STUDENT SUMMARY
+       ========================================================= */
+
+    const summaryCanvas =
+        document.getElementById("summaryChart");
+
+    if (summaryCanvas) {
+
+        new Chart(summaryCanvas, {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+                    "Total Students",
+                    "High Risk",
+                    "Low Risk"
+                ],
+
+                datasets: [{
+
+                    label: "Students",
+
+                    data: [
+                        {{ total_students }},
+                        {{ high_risk }},
+                        {{ low_risk }}
+                    ],
+
+                    backgroundColor: [
+                        "#0d6efd",
+                        "#dc3545",
+                        "#198754"
+                    ],
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+                            precision: 0
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       DROPOUT RISK PIE
+       ========================================================= */
+
+    const riskCanvas =
+        document.getElementById("riskChart");
+
+    if (riskCanvas) {
+
+        new Chart(riskCanvas, {
+
+            type: "pie",
+
+            data: {
+
+                labels: [
+                    "High Risk",
+                    "Low Risk"
+                ],
+
+                datasets: [{
+
+                    label: "Dropout Risk",
+
+                    data: [
+                        {{ high_risk }},
+                        {{ low_risk }}
+                    ],
+
+                    backgroundColor: [
+                        "#dc3545",
+                        "#198754"
+                    ],
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       STUDENTS BY DEPARTMENT
+       ========================================================= */
+
+    const departmentCanvas =
+        document.getElementById("departmentChart");
+
+    if (departmentCanvas) {
+
+        new Chart(departmentCanvas, {
+
+            type: "bar",
+
+            data: {
+
+                labels:
+                    {{ department_names|tojson }},
+
+                datasets: [{
+
+                    label: "Students",
+
+                    data:
+                        {{ department_counts|tojson }},
+
+                    backgroundColor:
+                        "#0d6efd",
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+                            precision: 0
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       HIGH-RISK STUDENTS BY DEPARTMENT
+       ========================================================= */
+
+    const riskDepartmentCanvas =
+        document.getElementById("riskDepartmentChart");
+
+    if (riskDepartmentCanvas) {
+
+        new Chart(riskDepartmentCanvas, {
+
+            type: "bar",
+
+            data: {
+
+                labels:
+                    {{ risk_department_names|tojson }},
+
+                datasets: [{
+
+                    label: "High-Risk Students",
+
+                    data:
+                        {{ risk_department_counts|tojson }},
+
+                    backgroundColor:
+                        "#dc3545",
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                indexAxis: "y",
+
+                scales: {
+
+                    x: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+                            precision: 0
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       HIGH-RISK PERCENTAGE BY DEPARTMENT
+       ========================================================= */
+
+    const riskPercentageCanvas =
+        document.getElementById("riskPercentageChart");
+
+    if (riskPercentageCanvas) {
+
+        new Chart(riskPercentageCanvas, {
+
+            type: "bar",
+
+            data: {
+
+                labels:
+                    {{ risk_percentage_names|tojson }},
+
+                datasets: [{
+
+                    label: "High-Risk Students (%)",
+
+                    data:
+                        {{ risk_percentage_values|tojson }},
+
+                    backgroundColor:
+                        "#ffc107",
+
+                    borderColor:
+                        "#d39e00",
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                indexAxis: "y",
+
+                scales: {
+
+                    x: {
+
+                        beginAtZero: true,
+
+                        max: 100,
+
+                        ticks: {
+
+                            precision: 0,
+
+                            callback: function(value) {
+
+                                return value + "%";
+
+                            }
+
+                        }
+
+                    }
+
+                },
+
+                plugins: {
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label: function(context) {
+
+                                return context.raw +
+                                       "% high risk";
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       HIGH-RISK PERCENTAGE BY ACADEMIC LEVEL
+       ========================================================= */
+
+    const riskLevelCanvas =
+        document.getElementById("riskLevelChart");
+
+    if (riskLevelCanvas) {
+
+        new Chart(riskLevelCanvas, {
+
+            type: "bar",
+
+            data: {
+
+                labels:
+                    {{ risk_level_names|tojson }},
+
+                datasets: [{
+
+                    label: "High-Risk Students (%)",
+
+                    data:
+                        {{ risk_level_values|tojson }},
+
+                    backgroundColor:
+                        "#0dcaf0",
+
+                    borderColor:
+                        "#087f9c",
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        max: 100,
+
+                        ticks: {
+
+                            precision: 0,
+
+                            callback: function(value) {
+
+                                return value + "%";
+
+                            }
+
+                        },
+
+                        title: {
+
+                            display: true,
+
+                            text: "High-Risk Percentage"
+
+                        }
+
+                    }
+
+                },
+
+                plugins: {
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label: function(context) {
+
+                                return context.raw +
+                                       "% high risk";
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+};
+
+</script>
+
+
+{% endblock %}
+

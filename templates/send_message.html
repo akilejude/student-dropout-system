@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            <h3 class="mb-0">
+                <i class="fas fa-envelope"></i>
+                Send Message
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <!-- STUDENT INFORMATION -->
+
+            <div class="alert alert-danger">
+
+                <h5 class="mb-2">
+                    <i class="fas fa-user"></i>
+                    At-Risk Student
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <strong>Student ID:</strong>
+                        {{ student[1] }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <strong>Name:</strong>
+                        {{ student[2] }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <strong>Department:</strong>
+                        {{ student[3] }}
+                    </div>
+
+                    <div class="col-md-4 mt-2">
+                        <strong>Level:</strong>
+                        {{ student[4] }}
+                    </div>
+
+                    <div class="col-md-4 mt-2">
+                        <strong>Risk:</strong>
+
+                        <span class="badge bg-danger">
+                            HIGH RISK
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- IDENTIFIED RISK FACTORS -->
+
+            {% if risk_factors %}
+
+            <div class="alert alert-warning">
+
+                <h6 class="fw-bold">
+                    <i class="fas fa-exclamation-circle"></i>
+                    Identified Risk Factors
+                </h6>
+
+                <ul class="mb-0">
+
+                    {% for factor in risk_factors %}
+
+                    <li>
+                        {{ factor }}
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- MESSAGE FORM -->
+
+            <form method="POST">
+
+                <div class="row">
+
+
+                    <!-- RECIPIENT TYPE -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-bold">
+                            Recipient
+                        </label>
+
+                        <select
+                            name="recipient_type"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select recipient
+                            </option>
+
+                            <option value="Student">
+                                Student
+                            </option>
+
+                            <option value="Parent">
+                                Parent
+                            </option>
+
+                            <option value="Both">
+                                Student & Parent
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CHANNEL -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-bold">
+                            Communication Channel
+                        </label>
+
+                        <select
+                            name="channel"
+                            class="form-select"
+                            required>
+
+                            <option value="EMAIL">
+                                Email
+                            </option>
+
+                            <option value="SMS">
+                                SMS
+                            </option>
+
+                            <option value="WHATSAPP">
+                                WhatsApp
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- RECIPIENT NAME -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-bold">
+                            Recipient Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="recipient_name"
+                            class="form-control"
+                            value="{{ student[2] }}"
+                            required>
+
+                    </div>
+
+
+                    <!-- CONTACT -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-bold">
+                            Email / Phone Number
+                        </label>
+
+                        <input
+                            type="text"
+                            name="recipient_contact"
+                            class="form-control"
+                            placeholder="Enter email or phone number"
+                            required>
+
+                    </div>
+
+
+                    <!-- SUBJECT -->
+
+                    <div class="col-md-12 mb-3">
+
+                        <label class="form-label fw-bold">
+                            Subject
+                        </label>
+
+                        <input
+                            type="text"
+                            name="subject"
+                            class="form-control"
+                            value="Student Support and Academic Intervention"
+                            required>
+
+                    </div>
+
+
+                    <!-- MESSAGE -->
+
+                    <div class="col-md-12 mb-3">
+
+                        <label class="form-label fw-bold">
+                            Message
+                        </label>
+
+                        <textarea
+                            name="message"
+                            class="form-control"
+                            rows="10"
+                            required>{{ generated_message }}</textarea>
+
+                        <div class="form-text">
+
+                            <i class="fas fa-robot"></i>
+
+                            This message was automatically generated
+                            based on the student's identified risk factors.
+                            You may review and edit it before sending.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="mt-3">
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="fas fa-paper-plane"></i>
+
+                        Save Message
+
+                    </button>
+
+
+                    <a
+                        href="{{ url_for('at_risk_students') }}"
+                        class="btn btn-secondary">
+
+                        <i class="fas fa-arrow-left"></i>
+
+                        Back
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+            <h3>
+                <i class="fas fa-file-alt"></i>
+                Student Reports
+            </h3>
+        </div>
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+                Available Reports
+            </h5>
+
+            <hr>
+
+            <!-- Export All Students -->
+            <a href="{{ url_for('print_all_students') }}"
+                 class="btn btn-primary m-2">
+
+                <i class="fas fa-file-pdf"></i>
+                 Print All Students
+
+            </a>
+
+            <a href="{{ url_for('export_excel') }}"
+                class="btn btn-success m-2">
+
+                <i class="fas fa-file-excel"></i>
+                 Export to Excel
+
+            </a>
+
+
+            <!-- Department Report -->
+<a href="{{ url_for('report_department') }}"
+   class="btn btn-success m-2">
+
+    <i class="fas fa-building"></i>
+    Print by Department
+
+</a>
+
+
+<!-- Department + Year Report -->
+<a href="{{ url_for('report_department_year') }}"
+   class="btn btn-info text-white m-2">
+
+    <i class="fas fa-filter"></i>
+    Print by Department & Level
+
+</a>
+
+
+<!-- Year Report -->
+<a href="{{ url_for('report_year') }}"
+   class="btn btn-warning m-2">
+
+    <i class="fas fa-calendar"></i>
+    Print by Level
+
+</a>
+
+            <div class="mt-4">
+
+    <!-- HIGH RISK REPORTS -->
+    <h5 class="text-danger">
+        <i class="fas fa-exclamation-triangle"></i>
+        High Risk Students
+    </h5>
+
+    <a href="{{ url_for('print_high_risk') }}"
+       class="btn btn-danger m-2">
+        <i class="fas fa-file-pdf"></i>
+        High Risk PDF
+    </a>
+
+    <a href="{{ url_for('export_high_risk') }}"
+       class="btn btn-outline-danger m-2">
+        <i class="fas fa-file-excel"></i>
+        High Risk Excel
+    </a>
+
+
+        <!-- LOW RISK REPORTS -->
+        <h5 class="text-success mt-4">
+            <i class="fas fa-check-circle"></i>
+            Low Risk Students
+        </h5>
+
+        <a href="{{ url_for('print_low_risk') }}"
+            class="btn btn-success m-2">
+            <i class="fas fa-file-pdf"></i>
+            Low Risk PDF
+        </a>
+
+        <a href="{{ url_for('export_low_risk') }}"
+            class="btn btn-outline-success m-2">
+            <i class="fas fa-file-excel"></i>
+            Low Risk Excel
+        </a>
+        <hr class="mt-4">
+
+<!-- ===================================================== -->
+<!-- FILTERED RISK REPORTS -->
+<!-- ===================================================== -->
+
+<h5 class="text-primary mt-4">
+    <i class="fas fa-filter"></i>
+    Filtered Risk Reports
+</h5>
+
+<div class="card shadow-sm mt-3">
+
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="row">
+
+                <!-- RISK TYPE -->
+                <div class="col-md-4 mb-3">
+
+                    <label class="form-label">
+                        <strong>Risk Type</strong>
+                    </label>
+
+                    <select
+                        name="risk"
+                        class="form-select"
+                        required>
+
+                        <option value="" selected disabled>
+                            -- Select Risk Type --
+                        </option>
+
+                        <option value="HIGH">
+                            High Risk
+                        </option>
+
+                        <option value="LOW">
+                            Low Risk
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DEPARTMENT -->
+                <div class="col-md-4 mb-3">
+
+                    <label class="form-label">
+                        <strong>Department</strong>
+                    </label>
+
+                    <select
+                        name="department"
+                        class="form-select">
+
+                        <option value="">
+                            All Departments
+                        </option>
+
+                        {% for dept in departments %}
+
+                        <option value="{{ dept[0] }}">
+                            {{ dept[0] }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- YEAR / LEVEL -->
+                <div class="col-md-4 mb-3">
+
+                    <label class="form-label">
+                        <strong>Year / Level</strong>
+                    </label>
+
+                    <select
+                        name="level"
+                        class="form-select">
+
+                        <option value="">
+                            All Levels
+                        </option>
+
+                        <option value="100">
+                            Year 1
+                        </option>
+
+                        <option value="200">
+                            Year 2
+                        </option>
+
+                        <option value="300">
+                            Year 3
+                        </option>
+
+                        <option value="400">
+                            Year 4
+                        </option>
+
+                        <option value="500">
+                            Year 5
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="row mt-2">
+
+                <div class="col-md-6">
+
+                    <button
+                        type="submit"
+                        formaction="{{ url_for('print_risk_filtered') }}"
+                        class="btn btn-danger w-100">
+
+                        <i class="fas fa-file-pdf"></i>
+                        Generate Risk PDF
+
+                    </button>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <button
+                        type="submit"
+                        formaction="{{ url_for('export_risk_filtered') }}"
+                        class="btn btn-success w-100">
+
+                        <i class="fas fa-file-excel"></i>
+                        Generate Risk Excel
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+            </div>
+            <hr>
+
+            <div class="alert alert-info mt-4">
+
+                <i class="fas fa-info-circle"></i>
+
+                <strong>Report Information:</strong>
+
+                <p class="mb-0 mt-2">
+                    Select a report option above. Department and
+                    level-based reports can be generated from the
+                    department report page.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

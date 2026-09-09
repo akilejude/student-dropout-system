@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Edit Student</h2>
+
+<form method="POST" action="{{ url_for('edit', id=student[0]) }}">
+
+        <div class="mb-3">
+            <label class="form-label">Student Name</label>
+            <input
+                type="text"
+                class="form-control"
+                name="student_name"
+                value="{{ student[2] }}"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Age</label>
+            <input
+                type="number"
+                class="form-control"
+                name="age"
+                value="{{ student[3] }}"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Gender</label>
+            <select class="form-control" name="gender">
+                <option value="Male" {% if student[4] == "Male" %}selected{% endif %}>Male</option>
+                <option value="Female" {% if student[4] == "Female" %}selected{% endif %}>Female</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Department</label>
+            <input
+                type="text"
+                class="form-control"
+                name="department"
+                value="{{ student[5] }}"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Level</label>
+            <input
+                type="number"
+                class="form-control"
+                name="level"
+                value="{{ student[6] }}"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Attendance (%)</label>
+            <input
+                type="number"
+                step="0.01"
+                class="form-control"
+                name="attendance"
+                value="{{ student[7] }}"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">CGPA</label>
+            <input
+                type="number"
+                step="0.01"
+                class="form-control"
+                name="cgpa"
+                value="{{ student[8] }}"
+                min="0"
+                max="5"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Failed Courses</label>
+            <input
+                type="number"
+                class="form-control"
+                name="failed_courses"
+                value="{{ student[9] }}"
+                min="0"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">LMS Engagement</label>
+            <select class="form-control" name="lms_engagement">
+                <option value="Low" {% if student[10] == "Low" %}selected{% endif %}>Low</option>
+                <option value="Medium" {% if student[10] == "Medium" %}selected{% endif %}>Medium</option>
+                <option value="High" {% if student[10] == "High" %}selected{% endif %}>High</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Financial Stress</label>
+            <select class="form-control" name="financial_stress">
+                <option value="Yes" {% if student[11] == "Yes" %}selected{% endif %}>Yes</option>
+                <option value="No" {% if student[11] == "No" %}selected{% endif %}>No</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Prediction</label>
+            <input
+                type="text"
+                class="form-control"
+                value="{{ student[12] }}"
+                readonly>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Update Student
+        </button>
+
+        <a href="{{ url_for('students') }}" class="btn btn-secondary">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

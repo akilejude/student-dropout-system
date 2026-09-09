@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="text-center text-success mb-4">
+    Batch Prediction Results
+</h2>
+
+<div class="row text-center mb-4">
+
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5>Total Students</h5>
+                <h2>{{ total_students }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <h5>High Risk</h5>
+                <h2>{{ high_risk }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5>Low Risk</h5>
+                <h2>{{ low_risk }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-warning">
+            <div class="card-body">
+                <h5>Average Risk (%)</h5>
+                <h2>{{ average_probability }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="table-responsive">
+    {{ tables[0] | safe }}
+</div>
+
+<br>
+
+<div class="text-center">
+
+    <a href="/dashboard" class="btn btn-dark">
+        🏠 Dashboard
+    </a>
+
+    <a href="/predict" class="btn btn-info">
+        Single Prediction
+    </a>
+
+    <a href="/students" class="btn btn-secondary">
+        Student Records
+    </a>
+
+    <a href="/batch" class="btn btn-primary">
+        Upload Another File
+    </a>
+
+    <a href="/download" class="btn btn-success">
+        Download Results
+    </a>
+
+</div>
+
+{% endblock %}

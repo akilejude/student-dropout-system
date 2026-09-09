@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+                <i class="fas fa-history"></i>
+                Intervention History
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <!-- ========================================= -->
+            <!-- STUDENT INFORMATION -->
+            <!-- ========================================= -->
+
+            <div class="alert alert-info">
+
+                <h5>
+                    <i class="fas fa-user"></i>
+                    Student Information
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <strong>Registration No:</strong>
+                        {{ student[1] }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <strong>Student Name:</strong>
+                        {{ student[2] }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <strong>Department:</strong>
+                        {{ student[3] }}
+                    </div>
+
+                </div>
+
+                <div class="row mt-2">
+
+                    <div class="col-md-4">
+                        <strong>Level:</strong>
+                        {{ student[4] }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <strong>Prediction:</strong>
+
+                        <span class="badge bg-danger">
+                            {{ student[5] }}
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <strong>Total Interventions:</strong>
+                        {{ interventions|length }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================================= -->
+            <!-- INTERVENTION RECORDS -->
+            <!-- ========================================= -->
+
+            {% if interventions %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>S/N</th>
+
+                            <th>Intervention Type</th>
+
+                            <th>Status</th>
+
+                            <th>Intervention Date</th>
+
+                            <th>Counsellor</th>
+
+                            <th>Remarks</th>
+
+                            <th>Follow-up Date</th>
+
+                            <th>Recorded</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for intervention in interventions %}
+
+                        <tr>
+
+                            <!-- S/N -->
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+
+                            <!-- Intervention Type -->
+
+                            <td>
+
+                                <strong>
+                                    {{ intervention[1] }}
+                                </strong>
+
+                            </td>
+
+
+                            <!-- Status -->
+
+                            <td>
+
+                                {% if intervention[2] == "Completed" %}
+
+                                    <span class="badge bg-success">
+                                        Completed
+                                    </span>
+
+                                {% elif intervention[2] == "In Progress" %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        In Progress
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        Pending
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- Intervention Date -->
+
+                            <td>
+                                {{ intervention[3] or "N/A" }}
+                            </td>
+
+
+                            <!-- Counsellor -->
+
+                            <td>
+                                {{ intervention[4] or "N/A" }}
+                            </td>
+
+
+                            <!-- Remarks -->
+
+                            <td>
+                                {{ intervention[5] or "No remarks" }}
+                            </td>
+
+
+                            <!-- Follow-up Date -->
+
+                            <td>
+                                {{ intervention[6] or "N/A" }}
+                            </td>
+
+
+                            <!-- Recorded -->
+
+                            <td>
+                                {{ intervention[7] or "N/A" }}
+                            </td>
+
+
+                            <!-- Action -->
+
+                            <td>
+
+                                <a
+                                    href="{{ url_for(
+                                        'edit_intervention',
+                                        intervention_id=intervention[0]
+                                    ) }}"
+                                    class="btn btn-warning btn-sm">
+
+                                    <i class="fas fa-edit"></i>
+                                    Edit
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-warning text-center">
+
+                <i class="fas fa-info-circle"></i>
+
+                No intervention records have been recorded
+                for this student yet.
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- ========================================= -->
+            <!-- BUTTONS -->
+            <!-- ========================================= -->
+
+            <div class="mt-4">
+
+                <a
+                    href="{{ url_for('at_risk_students') }}"
+                    class="btn btn-secondary">
+
+                    <i class="fas fa-arrow-left"></i>
+                    Back to At-Risk Students
+
+                </a>
+
+
+                <a
+                    href="{{ url_for(
+                        'add_intervention',
+                        student_id=student[0]
+                    ) }}"
+                    class="btn btn-danger">
+
+                    <i class="fas fa-plus"></i>
+                    Add New Intervention
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-primary text-white">
+            <h2 class="text-center">
+                Student Dropout Prediction Result
+            </h2>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th width="35%">Student ID</th>
+                    <td>{{ student_id }}</td>
+                </tr>
+
+                <tr>
+                    <th>Student Name</th>
+                    <td>{{ student_name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Prediction</th>
+
+                    <td>
+
+                        {% if "HIGH" in prediction %}
+
+                            <span class="badge bg-danger fs-5">
+                                {{ prediction }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-success fs-5">
+                                {{ prediction }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+           <tr>
+    <th>Prediction Confidence</th>
+
+    <td>
+
+        <canvas id="confidenceGauge"
+                width="260"
+                height="140"></canvas>
+
+        <h3 class="text-center mt-3">
+            {{ probability }}%
+        </h3>
+
+        <div class="text-center">
+
+            {% if probability >= 90 %}
+
+                <span class="badge bg-success fs-6">
+                    Very High Confidence
+                </span>
+
+            {% elif probability >= 75 %}
+
+                <span class="badge bg-primary fs-6">
+                    High Confidence
+                </span>
+
+            {% elif probability >= 60 %}
+
+                <span class="badge bg-warning text-dark fs-6">
+                    Moderate Confidence
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-danger fs-6">
+                    Low Confidence
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </td>
+</tr>                <tr>
+
+                    <th>Recommendation</th>
+
+                    <td>{{ recommendation }}</td>
+
+                </tr>
+
+            </table>
+
+            <!-- Explainable AI -->
+
+            <div class="card mt-4 border-warning">
+
+                <div class="card-header bg-warning">
+
+                    <h4 class="mb-0">
+                        <i class="fas fa-lightbulb"></i>
+                        Why was this prediction made?
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if reasons %}
+
+                        <ul class="list-group">
+
+                            {% for reason in reasons %}
+
+                                <li class="list-group-item">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    {{ reason }}
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    {% else %}
+
+                        <div class="alert alert-info mb-0">
+                            No major risk factors were detected for this student.
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+
+                <a href="/predict" class="btn btn-primary">
+                    <i class="fas fa-redo"></i>
+                    Predict Another Student
+                </a>
+
+                <a href="/dashboard" class="btn btn-dark">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+
+                <a href="/students" class="btn btn-secondary">
+                    <i class="fas fa-users"></i>
+                    Student Records
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+var opts = {
+
+    angle: 0,
+
+    lineWidth: 0.25,
+
+    radiusScale: 1,
+
+    pointer: {
+        length: 0.55,
+        strokeWidth: 0.04,
+    },
+
+    limitMax: false,
+
+    limitMin: false,
+
+    colorStart: "#0d6efd",
+
+    colorStop: "#198754",
+
+    strokeColor: "#EEEEEE",
+
+    generateGradient: true,
+
+    highDpiSupport: true
+
+};
+
+var target = document.getElementById('confidenceGauge');
+
+var gauge = new Gauge(target).setOptions(opts);
+
+gauge.maxValue = 100;
+
+gauge.setMinValue(0);
+
+gauge.animationSpeed = 32;
+
+gauge.set({{ probability }});
+
+</script>
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning text-dark">
+
+            <h4 class="mb-0">
+                <i class="fas fa-edit"></i>
+                Edit Intervention
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <!-- Intervention Type -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>Intervention Type</strong>
+                    </label>
+
+                    <select
+                        name="intervention_type"
+                        class="form-select"
+                        required>
+
+                        <option value="Academic Counselling"
+                            {% if intervention[2] == "Academic Counselling" %}selected{% endif %}>
+                            Academic Counselling
+                        </option>
+
+                        <option value="Financial Support"
+                            {% if intervention[2] == "Financial Support" %}selected{% endif %}>
+                            Financial Support
+                        </option>
+
+                        <option value="Psychological Support"
+                            {% if intervention[2] == "Psychological Support" %}selected{% endif %}>
+                            Psychological Support
+                        </option>
+
+                        <option value="Parental Engagement"
+                            {% if intervention[2] == "Parental Engagement" %}selected{% endif %}>
+                            Parental Engagement
+                        </option>
+
+                        <option value="Academic Monitoring"
+                            {% if intervention[2] == "Academic Monitoring" %}selected{% endif %}>
+                            Academic Monitoring
+                        </option>
+
+                        <option value="Other"
+                            {% if intervention[2] == "Other" %}selected{% endif %}>
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Status -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>Status</strong>
+                    </label>
+
+                    <select
+                        name="status"
+                        class="form-select"
+                        required>
+
+                        <option value="Pending"
+                            {% if intervention[3] == "Pending" %}selected{% endif %}>
+                            Pending
+                        </option>
+
+                        <option value="In Progress"
+                            {% if intervention[3] == "In Progress" %}selected{% endif %}>
+                            In Progress
+                        </option>
+
+                        <option value="Completed"
+                            {% if intervention[3] == "Completed" %}selected{% endif %}>
+                            Completed
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Intervention Date -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>Intervention Date</strong>
+                    </label>
+
+                    <input
+                        type="date"
+                        name="intervention_date"
+                        class="form-control"
+                        value="{{ intervention[4] }}"
+                        required>
+
+                </div>
+
+
+                <!-- Counsellor -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>Counsellor</strong>
+                    </label>
+
+                    <input
+                        type="text"
+                        name="counsellor"
+                        class="form-control"
+                        value="{{ intervention[5] or '' }}"
+                        placeholder="Enter counsellor name">
+
+                </div>
+
+
+                <!-- Remarks -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>Remarks</strong>
+                    </label>
+
+                    <textarea
+                        name="remarks"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Enter intervention remarks">{{ intervention[6] or '' }}</textarea>
+
+                </div>
+
+
+                <!-- Follow-up Date -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>Follow-up Date</strong>
+                    </label>
+
+                    <input
+                        type="date"
+                        name="follow_up_date"
+                        class="form-control"
+                        value="{{ intervention[7] or '' }}">
+
+                </div>
+
+
+                <!-- Buttons -->
+
+                <div class="mt-4">
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="fas fa-save"></i>
+                        Update Intervention
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick="history.back()">
+
+                        <i class="fas fa-arrow-left"></i>
+                        Cancel
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

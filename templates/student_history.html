@@ -1,0 +1,629 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4 mb-5">
+
+```
+<!-- ==========================================
+     PAGE HEADER
+=========================================== -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header bg-primary text-white">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+                <h3 class="mb-1">
+                    <i class="fas fa-history"></i>
+                    Student Support History
+                </h3>
+
+                <small>
+                    Complete intervention and communication record
+                </small>
+            </div>
+
+            <div>
+                <button onclick="window.print()"
+                        class="btn btn-light btn-sm">
+
+                    <i class="fas fa-print"></i>
+                    Print History
+
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     STUDENT INFORMATION
+=========================================== -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header bg-dark text-white">
+
+        <h5 class="mb-0">
+            <i class="fas fa-user-graduate"></i>
+            Student Information
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row">
+
+            <div class="col-md-4 mb-3">
+                <strong>Student ID</strong>
+                <div class="text-primary">
+                    {{ student[1] }}
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <strong>Student Name</strong>
+                <div>
+                    {{ student[2] }}
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <strong>Department</strong>
+                <div>
+                    {{ student[3] }}
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <strong>Level</strong>
+                <div>
+                    {{ student[4] }}
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <strong>Attendance</strong>
+                <div>
+                    {{ student[5] }}%
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <strong>CGPA</strong>
+                <div>
+                    {{ student[6] }}
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <strong>Failed Courses</strong>
+                <div>
+                    {{ student[7] }}
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <strong>LMS Engagement</strong>
+                <div>
+                    {{ student[8] }}
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <strong>Financial Stress</strong>
+                <div>
+                    {{ student[9] }}
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <strong>Prediction</strong>
+
+                <div>
+
+                    {% if student[10] == "HIGH RISK OF DROPOUT" %}
+
+                        <span class="badge bg-danger">
+                            HIGH RISK OF DROPOUT
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-success">
+                            {{ student[10] }}
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     SUPPORT ACTIVITY SUMMARY
+=========================================== -->
+
+<div class="row mb-4">
+
+    <div class="col-md-4 mb-3">
+
+        <div class="card shadow-sm border-warning h-100">
+
+            <div class="card-body text-center">
+
+                <i class="fas fa-hand-holding-heart fa-2x text-warning mb-2"></i>
+
+                <h6 class="text-muted">
+                    Interventions
+                </h6>
+
+                <h2 class="fw-bold">
+                    {{ interventions|length }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4 mb-3">
+
+        <div class="card shadow-sm border-success h-100">
+
+            <div class="card-body text-center">
+
+                <i class="fas fa-envelope fa-2x text-success mb-2"></i>
+
+                <h6 class="text-muted">
+                    Communications
+                </h6>
+
+                <h2 class="fw-bold">
+                    {{ messages|length }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4 mb-3">
+
+        <div class="card shadow-sm border-primary h-100">
+
+            <div class="card-body text-center">
+
+                <i class="fas fa-chart-line fa-2x text-primary mb-2"></i>
+
+                <h6 class="text-muted">
+                    Total Support Activities
+                </h6>
+
+                <h2 class="fw-bold">
+                    {{ interventions|length + messages|length }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     INTERVENTION HISTORY
+=========================================== -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header bg-warning">
+
+        <h5 class="mb-0">
+
+            <i class="fas fa-hand-holding-heart"></i>
+            Intervention History
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if interventions %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>S/N</th>
+                            <th>Intervention Type</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Counsellor</th>
+                            <th>Remarks</th>
+                            <th>Follow-up Date</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for intervention in interventions %}
+
+                        <tr>
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ intervention[0] }}
+                                </strong>
+                            </td>
+
+                            <td>
+
+                                {% if intervention[1] == "COMPLETED" %}
+
+                                    <span class="badge bg-success">
+                                        COMPLETED
+                                    </span>
+
+                                {% elif intervention[1] == "IN PROGRESS" %}
+
+                                    <span class="badge bg-primary">
+                                        IN PROGRESS
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        {{ intervention[1] }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ intervention[2] }}
+                            </td>
+
+                            <td>
+                                {{ intervention[3] }}
+                            </td>
+
+                            <td>
+                                {{ intervention[4] }}
+                            </td>
+
+                            <td>
+                                {{ intervention[5] }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-info text-center mb-0">
+
+                <i class="fas fa-info-circle"></i>
+
+                No intervention has been recorded for this student.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     COMMUNICATION HISTORY
+=========================================== -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header bg-success text-white">
+
+        <h5 class="mb-0">
+
+            <i class="fas fa-comments"></i>
+            Communication History
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if messages %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>S/N</th>
+                            <th>Recipient</th>
+                            <th>Contact</th>
+                            <th>Channel</th>
+                            <th>Subject</th>
+                            <th>Status</th>
+                            <th>Sent At</th>
+                            <th>Created At</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for msg in messages %}
+
+                        <tr>
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+                            <td>
+
+                                <strong>
+                                    {{ msg[1] }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    {{ msg[0] }}
+                                </small>
+
+                            </td>
+
+                            <td>
+                                {{ msg[2] }}
+                            </td>
+
+                            <td>
+
+                                {% if msg[5] == "EMAIL" %}
+
+                                    <span class="badge bg-primary">
+                                        <i class="fas fa-envelope"></i>
+                                        EMAIL
+                                    </span>
+
+                                {% elif msg[5] == "SMS" %}
+
+                                    <span class="badge bg-info text-dark">
+                                        <i class="fas fa-sms"></i>
+                                        SMS
+                                    </span>
+
+                                {% elif msg[5] == "WHATSAPP" %}
+
+                                    <span class="badge bg-success">
+                                        <i class="fab fa-whatsapp"></i>
+                                        WHATSAPP
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        {{ msg[5] }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ msg[3] }}
+                            </td>
+
+                            <td>
+
+                                {% if msg[6] == "SENT" %}
+
+                                    <span class="badge bg-success">
+                                        SENT
+                                    </span>
+
+                                {% elif msg[6] == "FAILED" %}
+
+                                    <span class="badge bg-danger">
+                                        FAILED
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        {{ msg[6] }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if msg[7] %}
+
+                                    {{ msg[7] }}
+
+                                {% else %}
+
+                                    <span class="text-muted">
+                                        Not sent
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ msg[8] }}
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td></td>
+
+                            <td colspan="7">
+
+                                <div class="alert alert-light border mb-0">
+
+                                    <strong>
+                                        <i class="fas fa-comment-dots"></i>
+                                        Message:
+                                    </strong>
+
+                                    <div class="mt-2"
+                                         style="white-space: pre-line;">
+
+                                        {{ msg[4] }}
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-info text-center mb-0">
+
+                <i class="fas fa-info-circle"></i>
+
+                No communication has been recorded for this student.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     NAVIGATION
+=========================================== -->
+
+<div class="text-center mt-4">
+
+    <a href="{{ url_for('at_risk_students') }}"
+       class="btn btn-danger me-2">
+
+        <i class="fas fa-arrow-left"></i>
+        Back to At-Risk Students
+
+    </a>
+
+    <a href="{{ url_for('dashboard') }}"
+       class="btn btn-dark">
+
+        <i class="fas fa-home"></i>
+        Dashboard
+
+    </a>
+
+</div>
+```
+
+</div>
+
+<!-- ==========================================
+     PRINT STYLING
+=========================================== -->
+
+<style>
+
+@media print {
+
+    .btn,
+    nav,
+    .navbar,
+    footer {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+    }
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+
+    .card-header {
+        color: black !important;
+        background: white !important;
+        border-bottom: 2px solid #000 !important;
+    }
+
+    table {
+        font-size: 11px;
+    }
+
+}
+
+</style>
+
+{% endblock %}

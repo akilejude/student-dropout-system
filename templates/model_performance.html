@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3>
+                <i class="fas fa-chart-line"></i>
+                Machine Learning Model Performance
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row text-center">
+
+                <div class="col-md-3">
+
+                    <div class="card bg-success text-white mb-3">
+
+                        <div class="card-body">
+
+                            <h5>Accuracy</h5>
+
+                            <h2>{{ accuracy }}%</h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card bg-info text-white mb-3">
+
+                        <div class="card-body">
+
+                            <h5>Precision</h5>
+
+                            <h2>{{ precision }}%</h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card bg-warning text-dark mb-3">
+
+                        <div class="card-body">
+
+                            <h5>Recall</h5>
+
+                            <h2>{{ recall }}%</h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card bg-danger text-white mb-3">
+
+                        <div class="card-body">
+
+                            <h5>F1 Score</h5>
+
+                            <h2>{{ f1_score }}%</h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h4 class="text-center">Confusion Matrix</h4>
+
+            <img src="{{ url_for('static', filename='confusion_matrix.png') }}"
+                 class="img-fluid rounded shadow">
+
+            <hr>
+
+            <h4 class="text-center">ROC Curve</h4>
+
+            <img src="{{ url_for('static', filename='roc_curve.png') }}"
+                 class="img-fluid rounded shadow">
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

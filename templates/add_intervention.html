@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">
+                <i class="fas fa-user-shield"></i>
+                Student Intervention
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <!-- STUDENT INFORMATION -->
+
+            <div class="alert alert-warning">
+
+                <h5>
+                    <i class="fas fa-exclamation-triangle"></i>
+                    High-Risk Student
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <strong>Student ID:</strong>
+                        {{ student[1] }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <strong>Name:</strong>
+                        {{ student[2] }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <strong>Department:</strong>
+                        {{ student[3] }}
+                    </div>
+
+                </div>
+
+                <div class="row mt-2">
+
+                    <div class="col-md-4">
+                        <strong>Level:</strong>
+                        {{ student[4] }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <strong>Prediction:</strong>
+
+                        <span class="badge bg-danger">
+                            {{ student[10] }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RISK FACTORS -->
+
+            {% if risk_factors %}
+
+            <div class="alert alert-danger">
+
+                <h6>
+                    <i class="fas fa-exclamation-circle"></i>
+                    Identified Risk Factors
+                </h6>
+
+                <ul class="mb-0">
+
+                    {% for factor in risk_factors %}
+
+                    <li>
+                        {{ factor }}
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            {% endif %}
+
+
+            <form method="POST">
+
+
+                <!-- ================================================= -->
+                <!-- INTERVENTION TYPE -->
+                <!-- ================================================= -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>
+                            <i class="fas fa-hands-helping"></i>
+                            Intervention Type
+                        </strong>
+                    </label>
+
+                    <select
+                        name="intervention_type"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Select Intervention
+                        </option>
+
+                        {% for intervention in suggested_interventions %}
+
+                        <option
+                            value="{{ intervention }}"
+                            {% if intervention == recommended_intervention %}
+                            selected
+                            {% endif %}>
+
+                            {{ intervention }}
+
+                        </option>
+
+                        {% endfor %}
+
+                        <!-- Other available interventions -->
+
+                        <option value="Academic Counselling">
+                            Academic Counselling
+                        </option>
+
+                        <option value="Financial Support">
+                            Financial Support
+                        </option>
+
+                        <option value="Attendance Monitoring">
+                            Attendance Monitoring
+                        </option>
+
+                        <option value="Academic Advising">
+                            Academic Advising
+                        </option>
+
+                        <option value="Academic Monitoring">
+                            Academic Monitoring
+                        </option>
+
+                        <option value="Parent/Guardian Contact">
+                            Parent/Guardian Contact
+                        </option>
+
+                        <option value="Psychological Support">
+                            Psychological Support
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                    <small class="text-muted">
+
+                        <i class="fas fa-info-circle"></i>
+
+                        The recommended intervention is automatically
+                        selected according to the student's identified
+                        risk factors.
+
+                    </small>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- STATUS -->
+                <!-- ================================================= -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>Intervention Status</strong>
+                    </label>
+
+                    <select
+                        name="status"
+                        class="form-select"
+                        required>
+
+                        <option value="Pending">
+                            Pending
+                        </option>
+
+                        <option value="In Progress">
+                            In Progress
+                        </option>
+
+                        <option value="Completed">
+                            Completed
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- INTERVENTION DATE -->
+                <!-- ================================================= -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>Intervention Date</strong>
+                    </label>
+
+                    <input
+                        type="date"
+                        name="intervention_date"
+                        class="form-control"
+                        required>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- COUNSELLOR -->
+                <!-- ================================================= -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>
+                            Counsellor / Responsible Officer
+                        </strong>
+                    </label>
+
+                    <input
+                        type="text"
+                        name="counsellor"
+                        class="form-control"
+                        placeholder="Enter counsellor or responsible officer"
+                        required>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- AUTOMATIC REMARKS -->
+                <!-- ================================================= -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>
+                            <i class="fas fa-comment-alt"></i>
+                            Remarks
+                        </strong>
+                    </label>
+
+                    <textarea
+                        name="remarks"
+                        class="form-control"
+                        rows="5"
+                        required>{{ automatic_remarks }}</textarea>
+
+                    <small class="text-muted">
+
+                        <i class="fas fa-info-circle"></i>
+
+                        This remark was automatically generated
+                        from the student's identified risk factors.
+
+                    </small>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- FOLLOW-UP DATE -->
+                <!-- ================================================= -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        <strong>Follow-up Date</strong>
+                    </label>
+
+                    <input
+                        type="date"
+                        name="follow_up_date"
+                        class="form-control">
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- BUTTONS -->
+                <!-- ================================================= -->
+
+                <div class="mt-4">
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger">
+
+                        <i class="fas fa-save"></i>
+                        Save Intervention
+
+                    </button>
+
+                    <a
+                        href="{{ url_for('at_risk_students') }}"
+                        class="btn btn-secondary">
+
+                        <i class="fas fa-arrow-left"></i>
+                        Back to At-Risk Students
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<div class="card shadow">
+
+<div class="card-header bg-warning text-dark">
+
+<h3>Edit Administrator</h3>
+
+</div>
+
+<div class="card-body">
+
+<form method="POST">
+
+<div class="mb-3">
+
+<label>Username</label>
+
+<input
+type="text"
+name="username"
+class="form-control"
+value="{{ admin[1] }}"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Email</label>
+
+<input
+type="email"
+name="email"
+class="form-control"
+value="{{ admin[2] }}"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Role</label>
+
+<select
+name="role"
+class="form-select">
+
+<option value="Administrator"
+{% if admin[3]=="Administrator" %}selected{% endif %}>
+Administrator
+</option>
+
+<option value="Counselor"
+{% if admin[3]=="Counselor" %}selected{% endif %}>
+Counselor
+</option>
+
+</select>
+
+</div>
+
+<button
+class="btn btn-success">
+
+Update Administrator
+
+</button>
+
+<a
+href="{{ url_for('admin_management') }}"
+class="btn btn-secondary">
+
+Cancel
+
+</a>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
