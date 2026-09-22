@@ -93,11 +93,20 @@ import mysql.connector
 
 import os
 
+# Database settings
+# Railway provides MYSQL* variables; the localhost/root fallbacks keep WAMP working locally.
+DB_HOST = os.getenv("MYSQLHOST", "localhost")
+DB_PORT = int(os.getenv("MYSQLPORT", "3306"))
+DB_USER = os.getenv("MYSQLUSER", "root")
+DB_PASSWORD = os.getenv("MYSQLPASSWORD", "")
+DB_NAME = os.getenv("MYSQLDATABASE", "student_dropout_db")
+
 db = mysql.connector.connect(
-    host=os.getenv("DB_HOST", "localhost"),
-    user=os.getenv("DB_USER", "root"),
-    password=os.getenv("DB_PASSWORD", ""),
-    database=os.getenv("DB_NAME", "student_dropout_db"),
+    host=DB_HOST,
+    port=DB_PORT,
+    user=DB_USER,
+    password=DB_PASSWORD,
+    database=DB_NAME,
     autocommit=True,
     connection_timeout=600
 )
@@ -1395,10 +1404,11 @@ def at_risk_students():
 def add_intervention(student_id):
 
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="student_dropout_db",
+        host=DB_HOST,
+        port=DB_PORT,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME,
         autocommit=True,
         connection_timeout=600
     )
@@ -1679,10 +1689,11 @@ def add_intervention(student_id):
 def intervention_history(student_id):
 
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="student_dropout_db",
+        host=DB_HOST,
+        port=DB_PORT,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME,
         autocommit=True,
         connection_timeout=600
     )
@@ -1743,10 +1754,11 @@ def intervention_history(student_id):
 def student_history(student_id):
 
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="student_dropout_db",
+        host=DB_HOST,
+        port=DB_PORT,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME,
         autocommit=True,
         connection_timeout=600
     )
@@ -1844,10 +1856,11 @@ def student_history(student_id):
 def edit_intervention(intervention_id):
 
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="student_dropout_db",
+        host=DB_HOST,
+        port=DB_PORT,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME,
         autocommit=True,
         connection_timeout=600
     )
@@ -1934,10 +1947,11 @@ def edit_intervention(intervention_id):
 def send_message(student_id):
 
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="student_dropout_db",
+        host=DB_HOST,
+        port=DB_PORT,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME,
         autocommit=True,
         connection_timeout=600
     )
@@ -2226,10 +2240,11 @@ Student Support Team
 def message_history():
 
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="student_dropout_db",
+        host=DB_HOST,
+        port=DB_PORT,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME,
         autocommit=True,
         connection_timeout=600
     )
