@@ -92,14 +92,33 @@ MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 import mysql.connector
 
 import os
+# ==========================
+# Database Connection
+# ==========================
+import mysql.connector
+import os
+from urllib.parse import urlparse
 
-# Database settings
-# Railway provides MYSQL* variables; the localhost/root fallbacks keep WAMP working locally.
-DB_HOST = os.getenv("MYSQLHOST", "localhost")
-DB_PORT = int(os.getenv("MYSQLPORT", "3306"))
-DB_USER = os.getenv("MYSQLUSER", "root")
-DB_PASSWORD = os.getenv("MYSQLPASSWORD", "")
-DB_NAME = os.getenv("MYSQLDATABASE", "student_dropout_db")
+# Railway provides MYSQL_URL.
+# Local development continues to use the individual MYSQL* variables.
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    parsed = urlparse(DATABASE_URL)
+
+    DB_HOST = parsed.hostname
+    DB_PORT = parsed.port or 3306
+    DB_USER = parsed.username
+    DB_PASSWORD = parsed.password
+    DB_NAME = parsed.path.lstrip("/")
+else:
+    # Local WAMP/XAMPP settings
+    DB_HOST = os.getenv("MYSQLHOST", "localhost")
+    DB_PORT = int(os.getenv("MYSQLPORT", "3306") or "3306")
+    DB_USER = os.getenv("MYSQLUSER", "root")
+    DB_PASSWORD = os.getenv("MYSQLPASSWORD", "")
+    DB_NAME = os.getenv("MYSQLDATABASE", "student_dropout_db")
 
 db = mysql.connector.connect(
     host=DB_HOST,
@@ -110,7 +129,9 @@ db = mysql.connector.connect(
     autocommit=True,
     connection_timeout=600
 )
+
 cursor = db.cursor()
+
 print("Connected to MySQL successfully!")
 # ==========================
 # Load Machine Learning Model
